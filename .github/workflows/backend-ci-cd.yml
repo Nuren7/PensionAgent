@@ -1,4 +1,4 @@
-name: Backend CI/CD (.NET 8)
+name: Backend CI (.NET 8)
 
 on:
   push:
@@ -40,20 +40,3 @@ jobs:
 
       - name: Verify Docker image build
         run: docker build -t pension-agent-api:ci .
-
-  deploy:
-    name: Trigger Render Deploy
-    needs: build-and-test
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Trigger Render Deploy Hook
-        env:
-          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
-        run: |
-          if [ -n "$RENDER_DEPLOY_HOOK_URL" ]; then
-            curl -fsSL -X POST "$RENDER_DEPLOY_HOOK_URL"
-          else
-            echo "RENDER_DEPLOY_HOOK_URL not set; skipping manual hook (Render auto-deploy handles it)."
-          fi

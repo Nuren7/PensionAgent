@@ -12,7 +12,7 @@
 * **Frontend:** Angular (Standalone Components, TypeScript, Tailwind CSS) — hosted on **Vercel**
 * **Backend:** .NET 8 Minimal Web API (C#, Entity Framework Core) — containerized with Docker on **Render**
 * **Database:** PostgreSQL — hosted on **Neon**
-* **Agentic AI Layer:** Groq API (`llama-3.3-70b-versatile`) with multi-step **Tool / Function Calling**
+* **Agentic AI Layer:** Groq API (`openai/gpt-oss-120b` by default) with multi-step **Tool / Function Calling**
 * **CI/CD:** Path-filtered **GitHub Actions** pipelines gating automated container and static builds
 
 ```text
@@ -74,7 +74,7 @@ To accelerate cross-stack delivery while maintaining strict type safety and clea
 ```bash
 cd backend
 cp .env.example .env
-# Add your DATABASE_URL and GROQ_API_KEY to .env
+# Add your DATABASE_URL and GROQ_API_KEY to .env; optionally set GROQ_MODEL
 
 dotnet restore
 dotnet run

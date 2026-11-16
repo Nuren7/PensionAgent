@@ -1,4 +1,4 @@
-name: Frontend CI/CD (Angular)
+name: Frontend CI (Angular)
 
 on:
   push:
@@ -36,20 +36,3 @@ jobs:
 
       - name: Build Angular (Production)
         run: npm run build -- --configuration production
-
-  deploy:
-    name: Trigger Vercel Deploy
-    needs: build-and-lint
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Trigger Vercel Deploy Hook
-        env:
-          VERCEL_DEPLOY_HOOK_URL: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
-        run: |
-          if [ -n "$VERCEL_DEPLOY_HOOK_URL" ]; then
-            curl -fsSL -X POST "$VERCEL_DEPLOY_HOOK_URL"
-          else
-            echo "VERCEL_DEPLOY_HOOK_URL not set; skipping manual hook (Vercel auto-deploy handles it)."
-          fi

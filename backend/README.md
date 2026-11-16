@@ -7,8 +7,9 @@ A .NET 8 Minimal Web API for an Angular pension dashboard. It combines simulated
 - .NET 8 SDK, or Docker
 - PostgreSQL (Neon is supported)
 - `GROQ_API_KEY` for advisor chat
+- Optional `GROQ_MODEL` (defaults to `openai/gpt-oss-120b`)
 
-Copy `.env.example` to `.env` and set `DATABASE_URL` and `GROQ_API_KEY`. The application loads `.env` for local development; normal process environment variables take precedence for deployment. `DATABASE_URL` accepts a PostgreSQL URI such as `postgresql://user:password@host/database?sslmode=require`. Never commit `.env`.
+Copy `.env.example` to `.env` and set `DATABASE_URL` and `GROQ_API_KEY`. Set `GROQ_MODEL` to another model available to your Groq API key if needed. The application loads `.env` for local development; normal process environment variables take precedence for deployment. `DATABASE_URL` accepts a PostgreSQL URI such as `postgresql://user:password@host/database?sslmode=require`. Never commit `.env`.
 
 The database schema is created with EF Core `EnsureCreated()` at startup. A demo profile (`user-seb-001`) and sample pension and insurance records are inserted when the profile does not already exist. The demo profile is not a production authentication mechanism.
 

@@ -16,7 +16,7 @@ public sealed class AgenticAdvisorService(
     CoverageGapService coverageGapService,
     RetirementCalculator retirementCalculator)
 {
-    private const string DefaultModel = "llama-3.3-70b-versatile";
+    private const string DefaultModel = "openai/gpt-oss-120b";
     private const int MaximumToolRounds = 6;
 
     private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web)
@@ -97,7 +97,11 @@ public sealed class AgenticAdvisorService(
         IReadOnlyList<GroqMessage> messages,
         CancellationToken cancellationToken)
     {
-        var request = new GroqRequest(DefaultModel, messages, CreateTools());
+        var configuredModel = configuration["GROQ_MODEL"]?.Trim();
+        var request = new GroqRequest(
+            string.IsNullOrEmpty(configuredModel) ? DefaultModel : configuredModel,
+            messages,
+            CreateTools());
         using var content = new StringContent(JsonSerializer.Serialize(request, JsonOptions), Encoding.UTF8, "application/json");
         using var response = await client.PostAsync("chat/completions", content, cancellationToken);
         var responseBody = await response.Content.ReadAsStringAsync(cancellationToken);
