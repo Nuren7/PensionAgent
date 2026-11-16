@@ -15,7 +15,6 @@ import { ApiService } from './core/api.service';
 import {
   AdvisorMessage,
   ConversationMessage,
-  InsurancePolicy,
   PensionAccount,
   PensionSummary,
   SimulationRequest,
@@ -201,10 +200,6 @@ export class App implements OnInit {
 
   formatTraceValue(value: unknown): string {
     return JSON.stringify(value, null, 2);
-  }
-
-  policyLabel(policy: InsurancePolicy): string {
-    return policy.policyType;
   }
 
   private requestProjection(): void {

@@ -10,10 +10,10 @@ From this directory:
 
 ```powershell
 npm install
-npm start
+npx ng serve
 ```
 
-Open `http://localhost:4200`. The development configuration connects to `http://localhost:8080/api`. Start the .NET API in `../backend` and configure its `.env` first. The frontend displays an explicit connection message if the API is unavailable.
+Open `http://localhost:4200`. `npm start` runs the same development server. The development configuration connects to `http://localhost:8080/api`. Start the .NET API in `../backend` and configure its `.env` first. The frontend displays an explicit connection message if the API is unavailable.
 
 Create a production build with:
 

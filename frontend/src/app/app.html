@@ -125,11 +125,11 @@
                 @for (policy of account.insurancePolicies; track policy.providerName + policy.policyType) {
                   <li class="flex flex-col gap-1 py-3 text-sm sm:flex-row sm:items-center sm:justify-between">
                     <span class="text-ink">
-                      {{ policyLabel(policy) }}
+                      {{ policy.policyType }}
                       <span class="text-muted">from {{ policy.providerName }}</span>
                     </span>
                     <span class="text-muted">
-                      {{ policy.isActive ? 'Active' : 'Inactive' }} ·
+                      {{ policy.isActive ? 'Active' : 'Inactive' }},
                       {{ policy.coverageAmount | number: '1.0-0' }} SEK cover
                     </span>
                   </li>
