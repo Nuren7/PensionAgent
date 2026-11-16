@@ -1,0 +1,39 @@
+# Miljövariabler & hemligheter (alla nivåer)
+.env
+.env.*
+!.env.example
+!.env.local.example
+
+# .NET 8 / C# (Backend)
+bin/
+obj/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.vs/
+*.pubxml
+*.publishsettings
+TestResults/
+*.log
+
+# Node & Angular (Frontend)
+node_modules/
+dist/
+.angular/
+tmp/
+out-tsc/
+bazel-out/
+*.tsbuildinfo
+
+# IDE & Editorer
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# OS-specifika filer
+.DS_Store
+Thumbs.db
