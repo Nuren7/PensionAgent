@@ -64,6 +64,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors();
 
+app.MapGet("/", () => Results.Ok(new { status = "healthy" }));
 app.MapGet("/api/health", () => Results.Ok(new { status = "healthy" }));
 
 app.MapGet("/api/portfolio/{userId?}", async (
