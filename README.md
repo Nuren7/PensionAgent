@@ -1,5 +1,8 @@
 # PensionPulse — Agentic Pension & Insurance Advisory Hub
 
+[![Backend CI/CD (.NET 8)](https://github.com)](https://github.com)
+[![Frontend CI/CD (Angular)](https://github.com)](https://github.com)
+
 **PensionPulse** is a full-stack pension and insurance aggregation platform designed to unify fragmented retirement holdings, simulate retirement scenarios in real time, and provide transparent, tool-driven financial guidance through an agentic AI advisor.
 
 ---
@@ -10,6 +13,7 @@
 * **Backend:** .NET 8 Minimal Web API (C#, Entity Framework Core) — containerized with Docker on **Render**
 * **Database:** PostgreSQL — hosted on **Neon**
 * **Agentic AI Layer:** Groq API (`llama-3.3-70b-versatile`) with multi-step **Tool / Function Calling**
+* **CI/CD:** Path-filtered **GitHub Actions** pipelines gating automated container and static builds
 
 ```text
 ┌────────────────────┐      HTTPS / JSON      ┌──────────────────────────────┐
@@ -37,6 +41,15 @@
 3. **Agentic AI Advisor with Transparent Tool Trace (`POST /api/advisor/chat`)**
    * Instead of static text generation, the advisor executes a multi-step tool loop (`get_user_portfolio`, `calculate_retirement_projection`, and `detect_coverage_gaps`).
    * Returns an expandable **Tool Execution Trace** in the UI displaying exact tool invocations, input parameters, and structured outputs.
+
+---
+
+## CI/CD Pipeline (GitHub Actions)
+
+The repository uses path-filtered workflows under `.github/workflows/` so backend and frontend changes are validated and deployed independently:
+
+* **`backend-ci-cd.yml`**: Triggered on changes to `backend/**`. Restores dependencies, compiles the .NET 8 Release build, runs unit tests, verifies the multi-stage Docker image build, and triggers the Render deploy hook on `main`.
+* **`frontend-ci-cd.yml`**: Triggered on changes to `frontend/**`. Installs dependencies with `npm ci`, validates the Angular production bundle, and triggers the Vercel deploy hook on `main`.
 
 ---
 

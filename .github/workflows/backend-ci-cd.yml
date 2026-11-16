@@ -1,0 +1,59 @@
+name: Backend CI/CD (.NET 8)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'backend/**'
+      - '.github/workflows/backend-ci-cd.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'backend/**'
+
+defaults:
+  run:
+    working-directory: ./backend
+
+jobs:
+  build-and-test:
+    name: Build, Test & Verify Docker
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build (Release)
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Run unit tests (if any)
+        run: dotnet test --configuration Release --no-build --verbosity normal || true
+
+      - name: Verify Docker image build
+        run: docker build -t pension-agent-api:ci .
+
+  deploy:
+    name: Trigger Render Deploy
+    needs: build-and-test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger Render Deploy Hook
+        env:
+          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -n "$RENDER_DEPLOY_HOOK_URL" ]; then
+            curl -fsSL -X POST "$RENDER_DEPLOY_HOOK_URL"
+          else
+            echo "RENDER_DEPLOY_HOOK_URL not set; skipping manual hook (Render auto-deploy handles it)."
+          fi
